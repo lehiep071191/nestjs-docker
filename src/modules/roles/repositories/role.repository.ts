@@ -11,6 +11,18 @@ export class RoleRepository {
   ) {}
 
   async createRole(params) {
-    return await this.realModel.create(params);
+    const result = await this.realModel
+      .create(params)
+      .then((res) => {
+        return res;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    return result;
+  }
+
+  async updateRole(params) {
+    return await this.realModel.findOneAndUpdate({ id: params.id }, { params });
   }
 }
