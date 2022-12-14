@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './database/database.module';
-import { UserRepository } from './users/repositories/users.repository';
-import { UsersModule } from './users/users.module';
-import { RolesModule } from './roles/roles.module';
+import { DatabaseModule } from './modules/database/database.module';
+import { RolesModule } from './modules/roles/roles.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -15,6 +15,7 @@ import { RolesModule } from './roles/roles.module';
     DatabaseModule,
     UsersModule,
     RolesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
