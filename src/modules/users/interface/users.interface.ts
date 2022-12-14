@@ -6,4 +6,6 @@ export interface User {
   address: string;
   birthday: Date;
   roleId: any;
+  isFullPermission: boolean;
+  password: string;
 }
