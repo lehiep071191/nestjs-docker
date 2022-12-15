@@ -6,9 +6,6 @@ export const RoleSchema = new mongoose.Schema({
   id: { type: String },
   type: {
     type: String,
-    enum: RolesTypeEnum,
-    default: RolesTypeEnum.NORMAL,
-    unique: true,
   },
   permissions: { type: [String] },
   description: { type: String },
@@ -16,4 +13,5 @@ export const RoleSchema = new mongoose.Schema({
 
 RoleSchema.pre('save', function (next) {
   this._id = this.get('id');
+  next();
 });
