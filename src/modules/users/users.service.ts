@@ -23,12 +23,15 @@ export class UsersService {
     if (oldModel) {
       throw new BadRequestException('User existed');
     }
-    const superUser = await this.repository.findByQuery({
-      isFullPermission: true,
-    });
-    if (superUser && superUser.length) {
-      throw new BadRequestException('System has super admin');
+    if (dto.secretKeySuperAdmin) {
+      const superUser = await this.repository.findByQuery({
+        isFullPermission: true,
+      });
+      if (superUser && superUser.length) {
+        throw new BadRequestException('System has super admin');
+      }
     }
+
     const model: any = { ...dto };
     console.log(this.config.get('SUPER_ADMIN_KEY'));
     if (
