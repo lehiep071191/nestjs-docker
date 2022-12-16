@@ -11,11 +11,15 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string) {
-    const user = await this.userRepository.findOneUser({ email });
-    if (!user) {
+    const user = await this.userRepository.findInfoUserByEmail({ email });
+    if (!user || !user.length) {
       throw new BadRequestException('user not existed');
     }
-    const checkUserCompare = await bcrypt.compare(password, user.password);
+    let resultUser = user[0];
+    const checkUserCompare = await bcrypt.compare(
+      password,
+      resultUser.password,
+    );
     if (checkUserCompare) {
       return user;
     }
@@ -24,7 +28,8 @@ export class AuthService {
   }
 
   async login(user) {
-    const payload = { email: user.email, id: user.id };
+    const payload = user;
+    delete payload.password;
     return {
       access_token: this.jwtService.sign(payload),
     };

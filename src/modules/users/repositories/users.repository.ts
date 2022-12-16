@@ -22,4 +22,22 @@ export class UserRepository {
   async findByQuery(query): Promise<User[]> {
     return await this.realModel.find(query);
   }
+
+  async findInfoUserByEmail(query) {
+    const _query: any = [
+      {
+        $match: query,
+      },
+      {
+        $lookup: {
+          from: 'roles',
+          localField: 'roleId',
+          foreignField: 'id',
+          as: 'roles',
+        },
+      },
+    ];
+
+    return await this.realModel.aggregate(_query);
+  }
 }
