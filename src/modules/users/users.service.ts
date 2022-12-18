@@ -49,6 +49,11 @@ export class UsersService {
     return result;
   }
 
+  async getProfile(id) {
+    console.log(id)
+    return await this.repository.findOneUser({id})
+  }
+
   getConfig() {
     return new ConfigService();
   }

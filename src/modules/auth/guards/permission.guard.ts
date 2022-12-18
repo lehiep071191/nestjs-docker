@@ -1,4 +1,5 @@
 import { CanActivate, ExecutionContext, mixin, Type } from '@nestjs/common';
+import e from 'express';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 const PermissionGuard = (permission: string): Type<CanActivate> => {
@@ -8,10 +9,14 @@ const PermissionGuard = (permission: string): Type<CanActivate> => {
 
       const request = context.switchToHttp().getRequest<any>();
       const user = request.user;
-      if (user.isFullPermission) {
+      if (user && user.isFullPermission) {
         return true;
       }
-      return user?.permissions.includes(permission);
+      if(!user || !user.permissions) {
+        return false
+      }
+      const result =  user?.permissions.includes(permission);
+      return result
     }
   }
 

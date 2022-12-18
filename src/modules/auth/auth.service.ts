@@ -29,6 +29,9 @@ export class AuthService {
 
   async login(user) {
     const payload = user;
+    if(user?.roles?.length) {
+      payload.permissions = user.roles[0].permissions
+    }
     delete payload.password;
     return {
       access_token: this.jwtService.sign(payload),
