@@ -8,4 +8,6 @@ export interface User {
   roleId: any;
   isFullPermission: boolean;
   password: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

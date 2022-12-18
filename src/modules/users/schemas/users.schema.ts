@@ -12,6 +12,8 @@ export const UserSchema = new mongoose.Schema({
   isFullPermission: { type: Boolean, default: false },
   isFirstLogin: { type: Boolean, default: false },
   password: { type: String },
+  createdAt: {type: Date, default: () => new Date()},
+  updatedAt: {type: Date, default: () => new Date()}
 });
 
 UserSchema.pre('save', function (next) {
