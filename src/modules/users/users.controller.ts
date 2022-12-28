@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Req } from '@nestjs/common';
 import { User } from 'src/decorators/user.decorator';
 import PermissionGuard from '../auth/guards/permission.guard';
 import { UserRequestDto } from './dto/user.dto';
@@ -10,6 +10,7 @@ export class UsersController {
 
   @Post('sign-up')
   createNormalUser(@Body() dto: UserRequestDto) {
+    
     return this.service.createNormalUser(dto);
   }
 

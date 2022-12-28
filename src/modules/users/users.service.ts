@@ -50,7 +50,6 @@ export class UsersService {
   }
 
   async getProfile(id) {
-    console.log(id)
     return await this.repository.findOneUser({id})
   }
 
