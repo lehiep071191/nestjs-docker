@@ -16,4 +16,22 @@ export class ProductsService {
         }
         
     }
+
+    async findAll(user, query) {
+        let _query: any = {...query}
+        _query.createdBy = user.id
+        if(_query['page'] && _query['pageSize']) {
+            _query.page = parseInt(query['page'].toString)
+            _query.pageSize = parseInt(query['pageSize'].toString)
+            _query.isPaging = true
+            return Promise.all([
+                await this.repository.findByQuery(_query)
+            ]).then(res => {
+                console.log(res)
+            })
+        }
+
+        return await this.repository.findByQuery(_query)
+
+    }
 }

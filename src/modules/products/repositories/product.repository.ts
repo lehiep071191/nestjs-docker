@@ -1,5 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
+import { getSort } from "src/commons/utils/get-sort";
 import { PRODUCT_MODEL } from '../../../commons/database.constant';
 import { Product } from "../interfaces/product.interface";
 
@@ -22,19 +23,21 @@ export class ProductRepository {
         const _query: any = {
             ...query
         }
-        const sort = {
+        let sort: any = {
             createAt: -1
         }
         if(query.sort) {
-            
+            sort = getSort(query.sort)
+            delete _query.sort
         }
         if(query.isPaging) {
             const page = parseInt(query.page.toString())
             const pageSize = parseInt(query.pageSize.toString())
             
-            delete query.page
-            delete query.pageSize
+            delete _query.page
+            delete _query.pageSize
+            return await this.realModel.find(_query).sort(sort).limit(pageSize).skip(page * pageSize - pageSize)
         }
-        return await this.realModel.find(_query)
+        return await this.realModel.find(_query).sort(sort)
     }
 }

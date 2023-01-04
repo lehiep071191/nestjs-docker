@@ -10,6 +10,7 @@ import { LoggerModule } from './modules/logger/logger.module';
 import * as Joi from '@hapi/joi';
 import { BullModule } from '@nestjs/bull';
 import { MailModule } from './modules/mailer/mailer.module';
+import { ProductsModule } from './modules/products/products.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { MailModule } from './modules/mailer/mailer.module';
     AuthModule,
     LoggerModule,
     MailModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
