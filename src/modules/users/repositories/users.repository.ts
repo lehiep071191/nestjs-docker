@@ -16,6 +16,7 @@ export class UserRepository {
   }
 
   async findOneUser(query): Promise<User> {
+    console.log(query)
     return await this.realModel.findOne(query);
   }
 

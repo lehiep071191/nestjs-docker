@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Req } from '@nestjs/common';
+import { PermissionConstant } from 'src/commons/enums/permission.enum';
 import { User } from 'src/decorators/user.decorator';
 import PermissionGuard from '../auth/guards/permission.guard';
 import { UserRequestDto } from './dto/user.dto';
@@ -10,11 +11,12 @@ export class UsersController {
 
   @Post('sign-up')
   createNormalUser(@Body() dto: UserRequestDto) {
+    
     return this.service.createNormalUser(dto);
   }
 
 
-  @UseGuards(PermissionGuard('view_profile'))
+  @UseGuards(PermissionGuard(PermissionConstant.USER_VIEW_PROFILE))
   @Get('profile')
   getUserProfile(@User() user: any ) {
     return this.service.getProfile(user.id)
