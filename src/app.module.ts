@@ -7,6 +7,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { LoggerModule } from './modules/logger/logger.module';
+import { ProductsModule } from './modules/products/products.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { LoggerModule } from './modules/logger/logger.module';
     RolesModule,
     AuthModule,
     LoggerModule,
+    ProductsModule
   ],
   controllers: [AppController],
   providers: [AppService],
