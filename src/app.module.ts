@@ -11,6 +11,7 @@ import * as Joi from '@hapi/joi';
 import { BullModule } from '@nestjs/bull';
 import { MailModule } from './modules/mailer/mailer.module';
 import { ProductsModule } from './modules/products/products.module';
+import { ProductDetailsModule } from './modules/product-details/product-details.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ProductsModule } from './modules/products/products.module';
     LoggerModule,
     MailModule,
     ProductsModule,
+    ProductDetailsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
