@@ -5,14 +5,15 @@ import { BadRequestException } from '@nestjs/common/exceptions/bad-request.excep
 import { JwtService } from '@nestjs/jwt/dist';
 import { ConfigService } from '@nestjs/config';
 import { jwtConstants } from 'src/commons/jwt.constant';
+import { verify } from 'crypto';
 @Injectable()
 export class AuthService {
   constructor(
     private userRepository: UserRepository,
     private jwtService: JwtService,
-    private config: ConfigService
+    private config: ConfigService,
   ) {
-    this.config = new ConfigService()
+    this.config = new ConfigService();
   }
 
   async validateUser(email: string, password: string) {
@@ -34,26 +35,28 @@ export class AuthService {
 
   async login(user) {
     const payload = user;
-    if(user?.roles?.length) {
-      payload.permissions = user.roles[0].permissions
+    if (user?.roles?.length) {
+      payload.permissions = user.roles[0].permissions;
     }
     delete payload.password;
     return {
       access_token: this.jwtService.sign(payload),
       refreshToken: this.jwtService.sign(payload, {
         expiresIn: '168h',
-        secret: jwtConstants.refresh
-      })
+        secret: jwtConstants.refresh,
+      }),
     };
   }
 
   async refreshToken(req) {
-    const user:any = await this.jwtService.verify(req.cookies.refresh,{secret: jwtConstants.refresh})
-    const id = user.id
-    const payload:any = await this.userRepository.findOneUser({id})
-    console.log(payload)
+    const user: any = await this.jwtService.verify(req.cookies.refresh, {
+      secret: jwtConstants.refresh,
+    });
+    const id = user.id;
+    const payload: any = await this.userRepository.findOneUser({ id });
+    console.log(payload);
     const signPayload = {
-      address:  payload.address,
+      address: payload.address,
       birthday: payload.birthday,
       createdAt: payload.createdAt,
       email: payload.email,
@@ -64,15 +67,15 @@ export class AuthService {
       updatedAt: payload.updatedAt,
       userName: payload.userName,
       id: payload.id,
-    }
+    };
     return {
       access_token: this.jwtService.sign(signPayload),
       refreshToken: this.jwtService.sign(signPayload, {
         expiresIn: '168h',
-        secret: jwtConstants.refresh
-      })
+        secret: jwtConstants.refresh,
+      }),
     };
   }
 
-  
+  async verifyToken(token) {}
 }

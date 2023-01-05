@@ -12,6 +12,7 @@ import { BullModule } from '@nestjs/bull';
 import { MailModule } from './modules/mailer/mailer.module';
 import { ProductsModule } from './modules/products/products.module';
 import { ProductDetailsModule } from './modules/product-details/product-details.module';
+import { EventModule } from './modules/event/event.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ProductDetailsModule } from './modules/product-details/product-details.
     MailModule,
     ProductsModule,
     ProductDetailsModule,
+    EventModule,
   ],
   controllers: [AppController],
   providers: [AppService],
