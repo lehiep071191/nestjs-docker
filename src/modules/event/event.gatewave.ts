@@ -26,11 +26,6 @@ export class EventGatewave implements OnGatewayConnection {
   @SubscribeMessage('send_message')
   listenForMessages(@MessageBody() data: any) {
     console.log(data);
-    this.server.sockets.emit('receive_message', data);
-  }
-
-  @SubscribeMessage('events')
-  onEvent(client: any, data: any): Observable<WsResponse<any>> {
-    return from(data).pipe(map((item) => ({ event: 'events', data: data })));
+    this.server.emit('receive_message', data);
   }
 }

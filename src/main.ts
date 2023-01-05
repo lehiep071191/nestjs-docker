@@ -4,11 +4,15 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-import { WsAdapter } from './adatpters/ws.adapter';
+import { RedisIoAdapter } from './adatpters/redis.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.useWebSocketAdapter(new WsAdapter(app));
+  const redisIoAdapter = new RedisIoAdapter(app);
+  await redisIoAdapter.connectToRedis();
+
+  app.useWebSocketAdapter(redisIoAdapter);
+
   app.setGlobalPrefix('/api');
   app.enableCors({
     origin: ['http://localhost:5102'],
