@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import {
   MessageBody,
   OnGatewayConnection,
@@ -5,6 +6,7 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsException,
   WsResponse,
 } from '@nestjs/websockets';
 import { from, map, Observable } from 'rxjs';
@@ -17,10 +19,29 @@ import { AuthService } from '../auth/auth.service';
 export class EventGatewave implements OnGatewayConnection {
   @WebSocketServer() private server: Server;
   constructor(private authService: AuthService) {}
-
-  async handleConnection(client: any, ...args: any[]) {
-    console.log(client.id);
-    await client.join();
+  logger = new Logger(EventGatewave.name)
+  async handleConnection(client: Socket, ...args: any[]) {
+    const bearerToken = client.handshake.auth?.token || client.handshake.headers?.authorization
+      if(!bearerToken) {
+        client.disconnect(true)
+        throw new WsException('Authen failed')
+      }
+      const token = bearerToken.split(" ")[1]
+    try {
+      const user = await this.authService.verifyToken(token)
+      if(user) {
+        await client.join(user.id);
+        this.logger.verbose(`client ${client.id} has join ${user.id}`)
+      } else {
+        client.disconnect(true)
+      
+      }
+      
+    } catch (e) {
+      client.disconnect(true)
+      this.logger.error(e)
+    }
+    
   }
 
   @SubscribeMessage('send_message')

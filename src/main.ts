@@ -8,10 +8,12 @@ import { RedisIoAdapter } from './adatpters/redis.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const redisIoAdapter = new RedisIoAdapter(app);
-  await redisIoAdapter.connectToRedis();
+  // add redis adapter 
 
-  app.useWebSocketAdapter(redisIoAdapter);
+  // const redisIoAdapter = new RedisIoAdapter(app);
+  // await redisIoAdapter.connectToRedis();
+
+  // app.useWebSocketAdapter(redisIoAdapter);
 
   app.setGlobalPrefix('/api');
   app.enableCors({
@@ -20,7 +22,6 @@ async function bootstrap() {
     // 'methods': ['POST', 'GET', 'PUT', 'PATCH', 'DELETE','OPTIONS']
   });
   app.use(cookieParser());
-
   const config = new ConfigService();
   app.useGlobalPipes(new ValidationPipe());
   const port = config.get('PORT');

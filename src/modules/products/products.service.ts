@@ -3,9 +3,15 @@ import { ProductRepository } from './repositories/product.repository';
 import { ProductCreateDto } from './dto/product.dto';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import * as uuid from 'uuid';
+import { InjectQueue } from '@nestjs/bull';
+import { QueueEnum } from '../../commons/enums/queue.enum';
+import { Queue } from 'bull';
 @Injectable()
 export class ProductsService {
-  constructor(private readonly repository: ProductRepository) {}
+  constructor(
+    private readonly repository: ProductRepository,
+    @InjectQueue(QueueEnum.PRODUCT_QUEUE) private readonly productProcessor: Queue
+  ) {}
 
   async createProduct(user, dto: ProductCreateDto) {
     const oldModel = await this.repository.findByQuery({ name: dto.name });
@@ -20,6 +26,7 @@ export class ProductsService {
   }
 
   async findAll(user, query) {
+    this.productProcessor.add('test_queue', {data: 'data'})
     let _query: any = { ...query };
     _query.createdBy = user.id;
     if (_query['page'] && _query['pageSize']) {

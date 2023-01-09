@@ -6,7 +6,6 @@ import { DatabaseModule } from './modules/database/database.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
-import { LoggerModule } from './modules/logger/logger.module';
 import * as Joi from '@hapi/joi';
 import { BullModule } from '@nestjs/bull';
 import { MailModule } from './modules/mailer/mailer.module';
@@ -37,7 +36,6 @@ import { EventModule } from './modules/event/event.module';
     UsersModule,
     RolesModule,
     AuthModule,
-    LoggerModule,
     MailModule,
     ProductsModule,
     ProductDetailsModule,

@@ -77,5 +77,10 @@ export class AuthService {
     };
   }
 
-  async verifyToken(token) {}
+  async verifyToken(token) {
+    const user = await this.jwtService.verifyAsync(token, {
+      secret: jwtConstants.secret
+    })
+    return user
+  }
 }
