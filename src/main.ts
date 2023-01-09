@@ -4,23 +4,28 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-
+import { RedisIoAdapter } from './adatpters/redis.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // add redis adapter 
+
+  // const redisIoAdapter = new RedisIoAdapter(app);
+  // await redisIoAdapter.connectToRedis();
+
+  // app.useWebSocketAdapter(redisIoAdapter);
 
   app.setGlobalPrefix('/api');
   app.enableCors({
     origin: ['http://localhost:5102'],
-    credentials: true
+    credentials: true,
     // 'methods': ['POST', 'GET', 'PUT', 'PATCH', 'DELETE','OPTIONS']
   });
-
-  app.use(cookieParser())
-
+  app.use(cookieParser());
   const config = new ConfigService();
   app.useGlobalPipes(new ValidationPipe());
   const port = config.get('PORT');
+
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Demo example')
     .setDescription('The demo API description')
