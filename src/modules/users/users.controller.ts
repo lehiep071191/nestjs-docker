@@ -21,4 +21,9 @@ export class UsersController {
   getUserProfile(@User() user: any ) {
     return this.service.getProfile(user.id)
   }
+
+  @Get('test')
+  getTest() {
+    return 'test'
+  }
 }

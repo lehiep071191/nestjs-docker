@@ -46,7 +46,6 @@ export class EventGatewave implements OnGatewayConnection {
 
   @SubscribeMessage('send_message')
   listenForMessages(@MessageBody() data: any) {
-    console.log(data);
     this.server.emit('receive_message', data);
   }
 }

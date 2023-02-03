@@ -14,9 +14,15 @@ export const ProductDetailsSchema = new mongoose.Schema({
   price: { type: Number },
   quantity: { type: Number },
   discount: { type: Number },
+  status: {type: String}
 });
 
 ProductDetailsSchema.pre('save', function (next) {
   this._id = this.get('id');
   next();
+});
+
+ProductDetailsSchema.pre('insertMany', function (next) {
+  console.log('this:', this)
+  next()
 });
