@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongodb_data_container:/var/data/db  
+
+  # nest: 
+  #   build: 
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5101:5101"
+  #   depends_on:
+  #     - mongodb
+  #   environment:
+  #     PORT: 5101
+  #     DB_URL: 'mongodb://mongodb:27017/nest'
+  #     SALT_OR_ROUND: 10
+  #     SUPER_ADMIN_KEY: "secrect_super_admin_key"
+  #     REFRESH_TOKEN: "REFRESH_TOKEN"
+  #     REDIS_HOST: "localhost"
+  #     REDIS_PORT: "6379"
+volumes:
+  mongodb_data_container:
+    external: true
+
+  
+    
