@@ -31,6 +31,14 @@ async function bootstrap() {
     .setDescription('The demo API description')
     .setVersion('1.0')
     .addTag('demo')
+    .addBearerAuth({
+      in: 'header',
+      type: 'http',
+      scheme: 'Bearer',
+      bearerFormat: 'Bearer',
+      name: 'Authorization',
+      description: 'Authorization access-token',
+    })
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('swagger-api', app, document);
